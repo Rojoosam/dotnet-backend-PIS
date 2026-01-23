@@ -1,0 +1,6 @@
+@SIADAL_HostAddress = http://localhost:5206
+
+GET {{SIADAL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
