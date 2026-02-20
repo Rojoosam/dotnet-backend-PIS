@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SIADAL.Models;
 
-public partial class user
+public partial class User
 {
     public ulong id { get; set; }
 
@@ -11,7 +11,7 @@ public partial class user
 
     public string last_name { get; set; } = null!;
 
-    public bool? is_active { get; set; }
+    public bool is_active { get; set; }
 
     public string email { get; set; } = null!;
 
@@ -23,7 +23,7 @@ public partial class user
 
     public DateTime? updated_at { get; set; }
 
-    public virtual ICollection<student> students { get; set; } = new List<student>();
+    public virtual ICollection<Student> students { get; set; } = new List<Student>();
 
-    public virtual ICollection<teacher> teachers { get; set; } = new List<teacher>();
+    public virtual ICollection<Teacher> teachers { get; set; } = new List<Teacher>();
 }

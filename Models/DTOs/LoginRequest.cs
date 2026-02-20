@@ -1,4 +1,4 @@
-﻿namespace SIADAL.DTOs
+﻿namespace SIADAL.Models.DTOs
 {
     public class LoginRequest
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SIADAL.Models;
 
-public partial class role
+public partial class Role
 {
     public ulong id { get; set; }
 

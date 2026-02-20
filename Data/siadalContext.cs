@@ -12,29 +12,27 @@ public partial class siadalContext : DbContext
     {
     }
 
-    public virtual DbSet<_class> classes { get; set; }
+    public virtual DbSet<Class> classes { get; set; }
 
-    public virtual DbSet<academic_term> academic_terms { get; set; }
+    public virtual DbSet<Academic_term> academic_terms { get; set; }
 
-    public virtual DbSet<activity> activities { get; set; }
+    public virtual DbSet<Activity> activities { get; set; }
 
-    public virtual DbSet<course> courses { get; set; }
+    public virtual DbSet<Course> courses { get; set; }
 
-    public virtual DbSet<group> groups { get; set; }
+    public virtual DbSet<Group> groups { get; set; }
 
-    public virtual DbSet<group_class> group_classes { get; set; }
+    public virtual DbSet<Group_class> group_classes { get; set; }
 
-    public virtual DbSet<migration> migrations { get; set; }
-
-    public virtual DbSet<role> roles { get; set; }
+    public virtual DbSet<Role> roles { get; set; }
 
     public virtual DbSet<role_user> role_users { get; set; }
 
-    public virtual DbSet<student> students { get; set; }
+    public virtual DbSet<Student> students { get; set; }
 
-    public virtual DbSet<teacher> teachers { get; set; }
+    public virtual DbSet<Teacher> teachers { get; set; }
 
-    public virtual DbSet<user> users { get; set; }
+    public virtual DbSet<User> users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -42,7 +40,7 @@ public partial class siadalContext : DbContext
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
 
-        modelBuilder.Entity<_class>(entity =>
+        modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -72,7 +70,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("classes_teacher_id_foreign");
         });
 
-        modelBuilder.Entity<academic_term>(entity =>
+        modelBuilder.Entity<Academic_term>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -86,7 +84,7 @@ public partial class siadalContext : DbContext
             entity.Property(e => e.updated_at).HasColumnType("timestamp");
         });
 
-        modelBuilder.Entity<activity>(entity =>
+        modelBuilder.Entity<Activity>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -112,7 +110,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("activities_student_id_foreign");
         });
 
-        modelBuilder.Entity<course>(entity =>
+        modelBuilder.Entity<Course>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -125,7 +123,7 @@ public partial class siadalContext : DbContext
             entity.Property(e => e.updated_at).HasColumnType("timestamp");
         });
 
-        modelBuilder.Entity<group>(entity =>
+        modelBuilder.Entity<Group>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -142,7 +140,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("groups_academic_term_id_foreign");
         });
 
-        modelBuilder.Entity<group_class>(entity =>
+        modelBuilder.Entity<Group_class>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -166,18 +164,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("group_class_group_id_foreign");
         });
 
-        modelBuilder.Entity<migration>(entity =>
-        {
-            entity.HasKey(e => e.id).HasName("PRIMARY");
-
-            entity.UseCollation("utf8mb4_unicode_ci");
-
-            entity.Property(e => e.migration1)
-                .HasMaxLength(255)
-                .HasColumnName("migration");
-        });
-
-        modelBuilder.Entity<role>(entity =>
+        modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -208,7 +195,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("role_user_user_id_foreign");
         });
 
-        modelBuilder.Entity<student>(entity =>
+        modelBuilder.Entity<Student>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -226,7 +213,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("students_user_id_foreign");
         });
 
-        modelBuilder.Entity<teacher>(entity =>
+        modelBuilder.Entity<Teacher>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 
@@ -244,7 +231,7 @@ public partial class siadalContext : DbContext
                 .HasConstraintName("teachers_user_id_foreign");
         });
 
-        modelBuilder.Entity<user>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
 

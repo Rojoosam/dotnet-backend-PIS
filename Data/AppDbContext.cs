@@ -12,17 +12,17 @@ namespace SIADAL.Data
 
         #region DbSets
 
-        public DbSet<user> users { get; set; }
-        public DbSet<student> students { get; set; }
-        public DbSet<teacher> teachers { get; set; }
-        public DbSet<role> roles { get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<Student> students { get; set; }
+        public DbSet<Teacher> teachers { get; set; }
+        public DbSet<Role> roles { get; set; }
         public DbSet<role_user> role_users { get; set; }
-        public DbSet<course> courses { get; set; }
-        public DbSet<_class> classes { get; set; }
-        public DbSet<academic_term> academic_terms { get; set; }
-        public DbSet<activity> activities { get; set; }
-        public DbSet<group> groups { get; set; }
-        public DbSet<group_class> group_classes { get; set; }
+        public DbSet<Course> courses { get; set; }
+        public DbSet<Class> classes { get; set; }
+        public DbSet<Academic_term> academic_terms { get; set; }
+        public DbSet<Activity> activities { get; set; }
+        public DbSet<Group> groups { get; set; }
+        public DbSet<Group_class> group_classes { get; set; }
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace SIADAL.Data
             // =========================
             // USER
             // =========================
-            modelBuilder.Entity<user>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -49,7 +49,7 @@ namespace SIADAL.Data
             // =========================
             // STUDENT
             // =========================
-            modelBuilder.Entity<student>(entity =>
+            modelBuilder.Entity<Student>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -62,7 +62,7 @@ namespace SIADAL.Data
             // =========================
             // TEACHER
             // =========================
-            modelBuilder.Entity<teacher>(entity =>
+            modelBuilder.Entity<Teacher>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -75,7 +75,7 @@ namespace SIADAL.Data
             // =========================
             // ROLE
             // =========================
-            modelBuilder.Entity<role>(entity =>
+            modelBuilder.Entity<Role>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -106,7 +106,7 @@ namespace SIADAL.Data
             // =========================
             // COURSE
             // =========================
-            modelBuilder.Entity<course>(entity =>
+            modelBuilder.Entity<Course>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -117,7 +117,7 @@ namespace SIADAL.Data
             // =========================
             // ACADEMIC TERM
             // =========================
-            modelBuilder.Entity<academic_term>(entity =>
+            modelBuilder.Entity<Academic_term>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -135,7 +135,7 @@ namespace SIADAL.Data
             // =========================
             // CLASS
             // =========================
-            modelBuilder.Entity<_class>(entity =>
+            modelBuilder.Entity<Class>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -155,7 +155,7 @@ namespace SIADAL.Data
             // =========================
             // ACTIVITY
             // =========================
-            modelBuilder.Entity<activity>(entity =>
+            modelBuilder.Entity<Activity>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -171,7 +171,7 @@ namespace SIADAL.Data
             // =========================
             // GROUP
             // =========================
-            modelBuilder.Entity<group>(entity =>
+            modelBuilder.Entity<Group>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -183,7 +183,7 @@ namespace SIADAL.Data
             // =========================
             // GROUP_CLASS
             // =========================
-            modelBuilder.Entity<group_class>(entity =>
+            modelBuilder.Entity<Group_class>(entity =>
             {
                 entity.HasKey(e => e.id);
 

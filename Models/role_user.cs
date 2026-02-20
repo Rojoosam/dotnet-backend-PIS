@@ -9,7 +9,7 @@ public partial class role_user
 
     public ulong role_id { get; set; }
 
-    public virtual role role { get; set; } = null!;
+    public virtual Role role { get; set; } = null!;
 
-    public virtual user user { get; set; } = null!;
+    public virtual User user { get; set; } = null!;
 }

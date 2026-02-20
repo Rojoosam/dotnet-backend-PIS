@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SIADAL.Models;
 
-public partial class activity
+public partial class Activity
 {
     public ulong id { get; set; }
 
@@ -23,7 +23,7 @@ public partial class activity
 
     public DateTime? updated_at { get; set; }
 
-    public virtual _class _class { get; set; } = null!;
+    public virtual Class _class { get; set; } = null!;
 
-    public virtual student student { get; set; } = null!;
+    public virtual Student student { get; set; } = null!;
 }

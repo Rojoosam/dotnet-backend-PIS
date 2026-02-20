@@ -15,7 +15,7 @@ namespace SIADAL.Services
             _configuration = configuration;
         }
 
-        public string GenerateToken(user user, string role)
+        public string GenerateToken(User user, string role)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);

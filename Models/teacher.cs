@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SIADAL.Models;
 
-public partial class teacher
+public partial class Teacher
 {
     public ulong id { get; set; }
 
@@ -15,7 +15,7 @@ public partial class teacher
 
     public DateTime? updated_at { get; set; }
 
-    public virtual ICollection<_class> _classes { get; set; } = new List<_class>();
+    public virtual ICollection<Class> _classes { get; set; } = new List<Class>();
 
-    public virtual user user { get; set; } = null!;
+    public virtual User user { get; set; } = null!;
 }

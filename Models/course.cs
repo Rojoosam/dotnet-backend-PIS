@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SIADAL.Models;
 
-public partial class course
+public partial class Course
 {
     public ulong id { get; set; }
 
@@ -19,5 +19,5 @@ public partial class course
 
     public DateTime? updated_at { get; set; }
 
-    public virtual ICollection<_class> _classes { get; set; } = new List<_class>();
+    public virtual ICollection<Class> _classes { get; set; } = new List<Class>();
 }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SIADAL.Data;
 using SIADAL.Services;
-using SIADAL.DTOs;
+using SIADAL.Models.DTOs;
 
 namespace SIADAL.Controllers
 {
@@ -22,7 +22,7 @@ namespace SIADAL.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var pwd = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            //var pwd = BCrypt.Net.BCrypt.HashPassword(request.Password);
             var user = await _context.users
                 .Include(u => u.students)
                 .Include(u => u.teachers)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SIADAL.Models;
 
-public partial class group_class
+public partial class Group_class
 {
     public ulong id { get; set; }
 
@@ -15,7 +15,7 @@ public partial class group_class
 
     public DateTime? updated_at { get; set; }
 
-    public virtual _class _class { get; set; } = null!;
+    public virtual Class _class { get; set; } = null!;
 
-    public virtual group group { get; set; } = null!;
+    public virtual Group group { get; set; } = null!;
 }
