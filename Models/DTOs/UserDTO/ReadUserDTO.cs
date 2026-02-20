@@ -10,6 +10,6 @@ namespace SIADAL.Models.DTOs.ReadUserDTO
         public string First_name { get; set; } = null!;
 
         public string Last_name { get; set; } = null!;
-        public string? Description { get; set; }
+
     }
 }

@@ -2,19 +2,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SIADAL.Helpers;
 using SIADAL.Interfaces;
-using SIADAL.Models.DTOs.CreateUserDTO;
-using SIADAL.Models.DTOs.UpdateUserDTO;
+using SIADAL.Models.DTOs.CreateStudentDTO;
+using SIADAL.Models.DTOs.UpdateStudentDTO;
 
 namespace SIADAL.Controllers
 {
-    [Route("api/user")]
+    [Route("api/student")]
     [Authorize(Roles = "admin")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class StudentController : ControllerBase
     {
-        private readonly IUser _repository;
+        private readonly IStudent _repository;
 
-        public UserController(IUser repository)
+        public StudentController(IStudent repository)
         {
             _repository = repository;
         }
@@ -22,7 +22,7 @@ namespace SIADAL.Controllers
         [Authorize]
         [HttpGet("")]
         [HttpGet("view_all")]
-        public async Task<IActionResult> Get([FromQuery] UserQueryObject query)
+        public async Task<IActionResult> Get([FromQuery] StudentQueryObject query)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -59,14 +59,14 @@ namespace SIADAL.Controllers
         [Authorize]
         [HttpPost("")]
         [HttpPost("create")]
-        public async Task<IActionResult> Post([FromBody] CreateUserDTO dto)
+        public async Task<IActionResult> Post([FromBody] CreateStudentDTO dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
                 var item = await _repository.CreateAsync(dto);
-                return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
+                return CreatedAtAction(nameof(Get), new { id = item.id }, item);
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace SIADAL.Controllers
         [Authorize]
         [HttpPut("{id:int}")]
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Put(ulong id, [FromBody] UpdateUserDTO dto)
+        public async Task<IActionResult> Put(ulong id, [FromBody] UpdateStudentDTO dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

@@ -40,6 +40,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<SIADAL.Interfaces.IUser, SIADAL.Repository.UserRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.IStudent, SIADAL.Repository.StudentRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
