@@ -37,6 +37,7 @@ namespace SIADAL.Mappers
                 email = dto.email,
                 password = BCrypt.Net.BCrypt.HashPassword(dto.password),
                 is_active = true,
+                created_at = DateTime.UtcNow,
             };
         }
     }

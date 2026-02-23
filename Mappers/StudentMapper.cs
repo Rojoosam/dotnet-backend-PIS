@@ -28,7 +28,8 @@ namespace SIADAL.Mappers
             model.user.first_name = dto.first_name ?? model.user.first_name;
             model.user.last_name = dto.last_name ?? model.user.last_name;
             model.user.email = dto.email ?? model.user.email;
-           
+            model.updated_at = DateTime.UtcNow;
+
             if (dto.password != null)
                 model.user.password = BCrypt.Net.BCrypt.HashPassword(dto.password) ?? model.user.password;
 
@@ -47,7 +48,8 @@ namespace SIADAL.Mappers
                     last_name = dto.last_name,
                     email = dto.email,
                     password = BCrypt.Net.BCrypt.HashPassword(dto.password),
-                    is_active = dto.is_active ?? true
+                    is_active = dto.is_active ?? true,
+                    created_at = DateTime.UtcNow
                 },
             };
         }
