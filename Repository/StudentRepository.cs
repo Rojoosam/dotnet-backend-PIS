@@ -116,7 +116,9 @@ namespace SIADAL.Repository
 
         public async Task<bool> DeleteAsync(ulong id)
         {
-            var entity = await _context.Set<Student>().FindAsync(id);
+            var entity = await _context.students
+                .Include(s => s.user)
+                .FirstOrDefaultAsync(s => s.id == id);
             if (entity == null) return false;
 
             _context.Set<Student>().Remove(entity);
