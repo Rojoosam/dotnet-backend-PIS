@@ -45,6 +45,7 @@ builder.Services.AddScoped<SIADAL.Interfaces.ICourse, SIADAL.Repository.CourseRe
 builder.Services.AddScoped<SIADAL.Interfaces.IAcademic_term, SIADAL.Repository.Academic_termRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.ITeacher, SIADAL.Repository.TeacherRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.IClass, SIADAL.Repository.ClassRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.IActivity, SIADAL.Repository.ActivityRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
