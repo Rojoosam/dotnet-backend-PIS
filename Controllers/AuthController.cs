@@ -22,27 +22,37 @@ namespace SIADAL.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            //var pwd = BCrypt.Net.BCrypt.HashPassword(request.Password);
             var user = await _context.users
-                .Include(u => u.students)
-                .Include(u => u.teachers)
+                .Include(u => u.student)
+                .Include(u => u.teacher)
+                .Include(u => u.role_users)
+                    .ThenInclude(ru => ru.role)
                 .FirstOrDefaultAsync(u => u.email == request.Email);
 
             if (user == null)
                 return Unauthorized("Invalid credentials");
 
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.password))
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.password_hash))
                 return Unauthorized("Invalid credentials");
 
             if (user.is_active != true)
                 return Unauthorized("User inactive");
 
+            // Determine role from role_user table, fallback to profile-based detection
             string role = "admin";
 
-            if (user.students.Any())
-                role = "student";
-            else if (user.teachers.Any())
-                role = "teacher";
+            var userRole = user.role_users.FirstOrDefault();
+            if (userRole != null)
+            {
+                role = userRole.role.name;
+            }
+            else
+            {
+                if (user.student != null)
+                    role = "student";
+                else if (user.teacher != null)
+                    role = "teacher";
+            }
 
             var token = _jwtService.GenerateToken(user, role);
 
@@ -55,5 +65,4 @@ namespace SIADAL.Controllers
             });
         }
     }
-
 }

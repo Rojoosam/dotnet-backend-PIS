@@ -20,7 +20,7 @@ namespace SIADAL.Repository
             _context = context;
         }
 
-        protected virtual IQueryable<ReadTeacherDTO> BuildTeacherQuery(TeacherQueryObject query)
+        protected virtual IQueryable<ReadTeacherDTO> BuildQuery(TeacherQueryObject query)
         {
             var queryable = _context.Set<Teacher>()
                 .AsNoTracking()
@@ -33,7 +33,6 @@ namespace SIADAL.Repository
                     last_name = m.user.last_name,
                     is_active = m.user.is_active,
                     email = m.user.email
-
                 });
 
             if (!string.IsNullOrEmpty(query.last_name))
@@ -42,8 +41,8 @@ namespace SIADAL.Repository
             if (!string.IsNullOrEmpty(query.first_name))
                 queryable = queryable.Where(m => m.first_name.Contains(query.first_name));
 
-            if (query.employee_number.HasValue)
-                queryable = queryable.Where(m => m.employee_number == query.employee_number.Value);
+            if (!string.IsNullOrEmpty(query.employee_number))
+                queryable = queryable.Where(m => m.employee_number.Contains(query.employee_number));
 
             if (query.is_active.HasValue)
                 queryable = queryable.Where(m => m.is_active == query.is_active.Value);
@@ -56,12 +55,12 @@ namespace SIADAL.Repository
 
         public async Task<List<ReadTeacherDTO>> GetAllAsync(TeacherQueryObject query)
         {
-            return await BuildTeacherQuery(query).ToListAsync();
+            return await BuildQuery(query).ToListAsync();
         }
 
         public async Task<PaginatedResultDTO<ReadTeacherDTO>> GetAllAsync(TeacherQueryObject query, int page = 1, int perPage = 10)
         {
-            var queryable = BuildTeacherQuery(query);
+            var queryable = BuildQuery(query);
             var totalItems = await queryable.CountAsync();
             var items = await queryable.Skip((page - 1) * perPage).Take(perPage).ToListAsync();
 
@@ -75,7 +74,7 @@ namespace SIADAL.Repository
             };
         }
 
-        public async Task<ReadTeacherDTO?> GetByIdAsync(ulong id)
+        public async Task<ReadTeacherDTO?> GetByIdAsync(int id)
         {
             return await _context.Set<Teacher>()
                 .Where(m => m.id == id)
@@ -99,7 +98,7 @@ namespace SIADAL.Repository
             return TeacherMapper.ToDto(entity);
         }
 
-        public async Task<ReadTeacherDTO?> UpdateAsync(ulong id, UpdateTeacherDTO dto)
+        public async Task<ReadTeacherDTO?> UpdateAsync(int id, UpdateTeacherDTO dto)
         {
             var entity = await _context.teachers
                 .Include(t => t.user)
@@ -111,9 +110,10 @@ namespace SIADAL.Repository
             return TeacherMapper.ToDto(entity);
         }
 
-        public async Task<bool> DeleteAsync(ulong id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await _context.teachers.Include(s => s.user)
+            var entity = await _context.teachers
+                .Include(s => s.user)
                 .FirstOrDefaultAsync(t => t.id == id);
             if (entity == null) return false;
 
@@ -122,7 +122,7 @@ namespace SIADAL.Repository
             return true;
         }
 
-        public async Task<bool> TeacherExistsAsync(ulong id)
+        public async Task<bool> TeacherExistsAsync(int id)
         {
             return await _context.Set<Teacher>().AnyAsync(m => m.id == id);
         }

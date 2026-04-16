@@ -5,25 +5,22 @@ namespace SIADAL.Models;
 
 public partial class User
 {
-    public ulong id { get; set; }
+    public int id { get; set; }
+
+    public string email { get; set; } = null!;
+
+    public string password_hash { get; set; } = null!;
 
     public string first_name { get; set; } = null!;
 
     public string last_name { get; set; } = null!;
 
-    public bool is_active { get; set; }
+    public bool is_active { get; set; } = true;
 
-    public string email { get; set; } = null!;
+    public DateTime created_at { get; set; }
 
-    public DateTime? email_verified_at { get; set; }
-
-    public string password { get; set; } = null!;
-
-    public DateTime? created_at { get; set; }
-
-    public DateTime? updated_at { get; set; }
-
-    public virtual ICollection<Student> students { get; set; } = new List<Student>();
-
-    public virtual ICollection<Teacher> teachers { get; set; } = new List<Teacher>();
+    // Navigation properties
+    public virtual ICollection<role_user> role_users { get; set; } = new List<role_user>();
+    public virtual Student? student { get; set; }
+    public virtual Teacher? teacher { get; set; }
 }

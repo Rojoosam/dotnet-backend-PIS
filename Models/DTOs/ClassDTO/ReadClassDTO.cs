@@ -1,19 +1,21 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace SIADAL.Models.DTOs.ReadClassDTO
 {
     public class ReadClassDTO
     {
-        public ulong id { get; set; }
-        public ulong course_id { get; set; }
-        public ulong teacher_id { get; set; }
-        public ulong academic_term_id { get; set; }
+        public int id { get; set; }
+        public string name { get; set; } = null!;
+        public string? schedule_json { get; set; }
 
-        public List<ScheduleDTO> schedule { get; set; } = new();
-        public string room { get; set; } = null!;
+        // Period info
+        public int period_id { get; set; }
+        public string period_name { get; set; } = null!;
 
-        public string course_name { get; set; } = null!;
+        // Program info
+        public int program_id { get; set; }
+        public string program_name { get; set; } = null!;
+
+        // Teacher info
+        public int teacher_id { get; set; }
         public string teacher_name { get; set; } = null!;
-        public string academic_term_name { get; set; } = null!;
     }
 }

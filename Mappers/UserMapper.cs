@@ -11,10 +11,12 @@ namespace SIADAL.Mappers
         {
             return new ReadUserDTO
             {
-                Id = model.id,
-                Email = model.email,
-                First_name = model.first_name,
-                Last_name = model.last_name,
+                id = model.id,
+                email = model.email,
+                first_name = model.first_name,
+                last_name = model.last_name,
+                is_active = model.is_active,
+                created_at = model.created_at
             };
         }
 
@@ -23,9 +25,10 @@ namespace SIADAL.Mappers
             model.first_name = dto.first_name ?? model.first_name;
             model.last_name = dto.last_name ?? model.last_name;
             model.email = dto.email ?? model.email;
-            model.password = BCrypt.Net.BCrypt.HashPassword(dto.password) ?? model.password;
-            model.updated_at = DateTime.UtcNow;
             model.is_active = dto.is_active ?? model.is_active;
+
+            if (!string.IsNullOrEmpty(dto.password))
+                model.password_hash = BCrypt.Net.BCrypt.HashPassword(dto.password);
         }
 
         public static User FromDtoToCreate(CreateUserDTO dto)
@@ -35,8 +38,8 @@ namespace SIADAL.Mappers
                 first_name = dto.first_name,
                 last_name = dto.last_name,
                 email = dto.email,
-                password = BCrypt.Net.BCrypt.HashPassword(dto.password),
-                is_active = true,
+                password_hash = BCrypt.Net.BCrypt.HashPassword(dto.password),
+                is_active = dto.is_active ?? true,
                 created_at = DateTime.UtcNow,
             };
         }

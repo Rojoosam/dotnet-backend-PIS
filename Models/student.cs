@@ -5,19 +5,19 @@ namespace SIADAL.Models;
 
 public partial class Student
 {
-    public ulong id { get; set; }
+    public int id { get; set; }
 
-    public ulong user_id { get; set; }
+    public int user_id { get; set; }
 
-    public int enrollment_number { get; set; }
+    public int program_id { get; set; }
+
+    public string enrollment_number { get; set; } = null!;
 
     public DateOnly birth_date { get; set; }
 
-    public DateTime? created_at { get; set; }
-
-    public DateTime? updated_at { get; set; }
-
-    public virtual ICollection<Activity> activities { get; set; } = new List<Activity>();
-
+    // Navigation properties
     public virtual User user { get; set; } = null!;
+    public virtual Program program { get; set; } = null!;
+    public virtual ICollection<Enrollment> enrollments { get; set; } = new List<Enrollment>();
+    public virtual ICollection<Submission> submissions { get; set; } = new List<Submission>();
 }

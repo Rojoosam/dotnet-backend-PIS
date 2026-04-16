@@ -5,29 +5,22 @@ namespace SIADAL.Models;
 
 public partial class Class
 {
-    public ulong id { get; set; }
+    public int id { get; set; }
 
-    public ulong course_id { get; set; }
+    public int period_id { get; set; }
 
-    public ulong academic_term_id { get; set; }
+    public int program_id { get; set; }
 
-    public ulong teacher_id { get; set; }
+    public int teacher_id { get; set; }
 
-    public string schedule { get; set; } = null!;
+    public string name { get; set; } = null!;
 
-    public string room { get; set; } = null!;
+    public string? schedule_json { get; set; }
 
-    public DateTime? created_at { get; set; }
-
-    public DateTime? updated_at { get; set; }
-
-    public virtual Academic_term academic_term { get; set; } = null!;
-
-    public virtual ICollection<Activity> activities { get; set; } = new List<Activity>();
-
-    public virtual Course course { get; set; } = null!;
-
-    public virtual ICollection<Group_class> group_classes { get; set; } = new List<Group_class>();
-
+    // Navigation properties
+    public virtual AcademicPeriod academic_period { get; set; } = null!;
+    public virtual Program program { get; set; } = null!;
     public virtual Teacher teacher { get; set; } = null!;
+    public virtual ICollection<Enrollment> enrollments { get; set; } = new List<Enrollment>();
+    public virtual ICollection<Assignment> assignments { get; set; } = new List<Assignment>();
 }

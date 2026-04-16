@@ -10,6 +10,7 @@ namespace SIADAL.Models.DTOs.CreateUserDTO
         public string last_name { get; set; } = null!;
         [Required]
         public string email { get; set; } = null!;
+        [Required]
         public string password { get; set; } = null!;
         public bool? is_active { get; set; }
     }

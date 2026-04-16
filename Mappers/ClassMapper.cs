@@ -1,9 +1,7 @@
 using SIADAL.Models;
-using SIADAL.Models.DTOs;
 using SIADAL.Models.DTOs.CreateClassDTO;
 using SIADAL.Models.DTOs.ReadClassDTO;
 using SIADAL.Models.DTOs.UpdateClassDTO;
-using System.Text.Json;
 
 namespace SIADAL.Mappers
 {
@@ -14,37 +12,37 @@ namespace SIADAL.Mappers
             return new ReadClassDTO
             {
                 id = model.id,
-                course_id = model.course_id,
+                name = model.name,
+                schedule_json = model.schedule_json,
+                period_id = model.period_id,
+                period_name = model.academic_period?.name ?? string.Empty,
+                program_id = model.program_id,
+                program_name = model.program?.name ?? string.Empty,
                 teacher_id = model.teacher_id,
-                academic_term_id = model.academic_term_id,
-                room = model.room,
-                academic_term_name = model.academic_term.name,
-                course_name = model.course.name,
-                teacher_name = model.teacher.user.first_name + " " + model.teacher.user.last_name,
-                schedule = JsonSerializer.Deserialize<List<ScheduleDTO>>(model.schedule)!
+                teacher_name = model.teacher?.user != null
+                    ? model.teacher.user.first_name + " " + model.teacher.user.last_name
+                    : string.Empty
             };
         }
 
         public static void FromDtoToUpdate(Class model, UpdateClassDTO dto)
         {
-            model.course_id = dto.course_id ?? model.course_id;
+            model.period_id = dto.period_id ?? model.period_id;
+            model.program_id = dto.program_id ?? model.program_id;
             model.teacher_id = dto.teacher_id ?? model.teacher_id;
-            model.academic_term.id = dto.academic_term_id ?? model.academic_term_id;
-            model.schedule = JsonSerializer.Serialize(dto.schedule) ?? model.schedule;
-            model.room = dto.room ?? model.room;
-            model.updated_at = DateTime.UtcNow;
+            model.name = dto.name ?? model.name;
+            model.schedule_json = dto.schedule_json ?? model.schedule_json;
         }
 
         public static Class FromDtoToCreate(CreateClassDTO dto)
         {
             return new Class
             {
-                course_id = dto.course_id,
+                period_id = dto.period_id,
+                program_id = dto.program_id,
                 teacher_id = dto.teacher_id,
-                academic_term_id = dto.academic_term_id,
-                schedule = JsonSerializer.Serialize(dto.schedule),
-                room = dto.room,
-                created_at = DateTime.UtcNow
+                name = dto.name,
+                schedule_json = dto.schedule_json
             };
         }
     }

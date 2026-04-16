@@ -2,8 +2,9 @@ namespace SIADAL.Helpers
 {
     public class ClassQueryObject
     {
-        public string? schedule { get; set; } = null!;
-
-        public string? room { get; set; } = null!;
+        public string? name { get; set; }
+        public int? period_id { get; set; }
+        public int? program_id { get; set; }
+        public int? teacher_id { get; set; }
     }
 }
