@@ -7,7 +7,7 @@ using SIADAL.Models.DTOs.UpdateAcademicPeriodDTO;
 
 namespace SIADAL.Controllers
 {
-    [Route("api/academic_period")]
+    [Route("api/academic_periods")]
     [ApiController]
     public class AcademicPeriodController : ControllerBase
     {

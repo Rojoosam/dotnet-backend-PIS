@@ -7,7 +7,7 @@ using SIADAL.Models.DTOs.UpdateEducationalLevelDTO;
 
 namespace SIADAL.Controllers
 {
-    [Route("api/educational_level")]
+    [Route("api/educational_levels")]
     [ApiController]
     public class EducationalLevelController : ControllerBase
     {

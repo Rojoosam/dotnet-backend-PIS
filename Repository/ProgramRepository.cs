@@ -29,7 +29,7 @@ namespace SIADAL.Repository
                     id = m.id,
                     name = m.name,
                     level_id = m.level_id,
-                    level_name = m.educational_level.name
+                    level_name = m.educational_levels.name
                 });
 
             if (!string.IsNullOrEmpty(query.name))
@@ -71,7 +71,7 @@ namespace SIADAL.Repository
                     id = m.id,
                     name = m.name,
                     level_id = m.level_id,
-                    level_name = m.educational_level.name
+                    level_name = m.educational_levels.name
                 }).FirstOrDefaultAsync();
         }
 
@@ -81,14 +81,14 @@ namespace SIADAL.Repository
             await _context.Set<Models.Program>().AddAsync(entity);
             await _context.SaveChangesAsync();
 
-            await _context.Entry(entity).Reference(p => p.educational_level).LoadAsync();
+            await _context.Entry(entity).Reference(p => p.educational_levels).LoadAsync();
             return ProgramMapper.ToDto(entity);
         }
 
         public async Task<ReadProgramDTO?> UpdateAsync(int id, UpdateProgramDTO dto)
         {
             var entity = await _context.Set<Models.Program>()
-                .Include(p => p.educational_level)
+                .Include(p => p.educational_levels)
                 .FirstOrDefaultAsync(p => p.id == id);
             if (entity == null) return null;
 
@@ -96,7 +96,7 @@ namespace SIADAL.Repository
             await _context.SaveChangesAsync();
 
             if (dto.level_id.HasValue)
-                await _context.Entry(entity).Reference(p => p.educational_level).LoadAsync();
+                await _context.Entry(entity).Reference(p => p.educational_levels).LoadAsync();
 
             return ProgramMapper.ToDto(entity);
         }

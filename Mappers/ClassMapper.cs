@@ -15,7 +15,7 @@ namespace SIADAL.Mappers
                 name = model.name,
                 schedule_json = model.schedule_json,
                 period_id = model.period_id,
-                period_name = model.academic_period?.name ?? string.Empty,
+                period_name = model.academic_periods?.name ?? string.Empty,
                 program_id = model.program_id,
                 program_name = model.program?.name ?? string.Empty,
                 teacher_id = model.teacher_id,

@@ -30,7 +30,7 @@ namespace SIADAL.Repository
                     name = m.name,
                     schedule_json = m.schedule_json,
                     period_id = m.period_id,
-                    period_name = m.academic_period.name,
+                    period_name = m.academic_periods.name,
                     program_id = m.program_id,
                     program_name = m.program.name,
                     teacher_id = m.teacher_id,
@@ -84,7 +84,7 @@ namespace SIADAL.Repository
                     name = m.name,
                     schedule_json = m.schedule_json,
                     period_id = m.period_id,
-                    period_name = m.academic_period.name,
+                    period_name = m.academic_periods.name,
                     program_id = m.program_id,
                     program_name = m.program.name,
                     teacher_id = m.teacher_id,
@@ -99,7 +99,7 @@ namespace SIADAL.Repository
             await _context.SaveChangesAsync();
 
             var created = await _context.classes
-                .Include(c => c.academic_period)
+                .Include(c => c.academic_periods)
                 .Include(c => c.program)
                 .Include(c => c.teacher)
                     .ThenInclude(t => t.user)
@@ -111,7 +111,7 @@ namespace SIADAL.Repository
         public async Task<ReadClassDTO?> UpdateAsync(int id, UpdateClassDTO dto)
         {
             var entity = await _context.classes
-                .Include(c => c.academic_period)
+                .Include(c => c.academic_periods)
                 .Include(c => c.program)
                 .Include(c => c.teacher)
                     .ThenInclude(t => t.user)

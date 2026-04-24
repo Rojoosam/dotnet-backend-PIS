@@ -31,16 +31,12 @@ namespace SIADAL.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // =========================
             // USER
-            // =========================
             modelBuilder.Entity<User>(entity =>
             {
+                entity.ToTable("users");
                 entity.HasKey(e => e.id);
-
-                entity.HasIndex(e => e.email)
-                      .IsUnique();
-
+                entity.HasIndex(e => e.email).IsUnique();
                 entity.Property(e => e.email).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.password_hash).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.first_name).IsRequired().HasMaxLength(100);
@@ -49,26 +45,19 @@ namespace SIADAL.Data
                 entity.Property(e => e.created_at).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
-            // =========================
             // ROLE
-            // =========================
             modelBuilder.Entity<Role>(entity =>
             {
+                entity.ToTable("roles");
                 entity.HasKey(e => e.id);
-
-                entity.HasIndex(e => e.name)
-                      .IsUnique();
-
-                entity.Property(e => e.name)
-                      .IsRequired()
-                      .HasMaxLength(50);
+                entity.HasIndex(e => e.name).IsUnique();
+                entity.Property(e => e.name).IsRequired().HasMaxLength(50);
             });
 
-            // =========================
             // ROLE_USER (N:N)
-            // =========================
             modelBuilder.Entity<role_user>(entity =>
             {
+                entity.ToTable("role_user");
                 entity.HasKey(e => new { e.user_id, e.role_id });
 
                 entity.HasOne(e => e.user)
@@ -81,189 +70,133 @@ namespace SIADAL.Data
                       .HasForeignKey(e => e.role_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
-
-            // =========================
+                
             // EDUCATIONAL LEVEL
-            // =========================
             modelBuilder.Entity<EducationalLevel>(entity =>
             {
+                entity.ToTable("educational_levels");
                 entity.HasKey(e => e.id);
-
-                entity.HasIndex(e => e.name)
-                      .IsUnique();
-
-                entity.Property(e => e.name)
-                      .IsRequired()
-                      .HasMaxLength(100);
+                entity.HasIndex(e => e.name).IsUnique();
+                entity.Property(e => e.name).IsRequired().HasMaxLength(100);
             });
 
-            // =========================
             // PROGRAM
-            // =========================
             modelBuilder.Entity<Models.Program>(entity =>
             {
+                entity.ToTable("programs");
                 entity.HasKey(e => e.id);
-
-                entity.Property(e => e.name)
-                      .IsRequired()
-                      .HasMaxLength(150);
-
-                entity.HasOne(e => e.educational_level)
+                entity.Property(e => e.name).IsRequired().HasMaxLength(150);
+                entity.HasOne(e => e.educational_levels)
                       .WithMany(l => l.programs)
                       .HasForeignKey(e => e.level_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // =========================
             // ACADEMIC PERIOD
-            // =========================
             modelBuilder.Entity<AcademicPeriod>(entity =>
             {
+                entity.ToTable("academic_periods");
                 entity.HasKey(e => e.id);
-
-                entity.Property(e => e.name)
-                      .IsRequired()
-                      .HasMaxLength(100);
-
+                entity.Property(e => e.name).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.start_date).IsRequired();
                 entity.Property(e => e.end_date).IsRequired();
                 entity.Property(e => e.is_active).HasDefaultValue(false);
             });
 
-            // =========================
             // STUDENT
-            // =========================
             modelBuilder.Entity<Student>(entity =>
             {
+                entity.ToTable("students");
                 entity.HasKey(e => e.id);
-
                 entity.HasIndex(e => e.user_id).IsUnique();
                 entity.HasIndex(e => e.enrollment_number).IsUnique();
-
-                entity.Property(e => e.enrollment_number)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
+                entity.Property(e => e.enrollment_number).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.birth_date).IsRequired();
-
                 entity.HasOne(e => e.user)
                       .WithOne(u => u.student)
                       .HasForeignKey<Student>(e => e.user_id)
                       .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e.program)
                       .WithMany(p => p.students)
                       .HasForeignKey(e => e.program_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // =========================
             // TEACHER
-            // =========================
             modelBuilder.Entity<Teacher>(entity =>
             {
+                entity.ToTable("teachers");
                 entity.HasKey(e => e.id);
-
                 entity.HasIndex(e => e.user_id).IsUnique();
                 entity.HasIndex(e => e.employee_number).IsUnique();
-
-                entity.Property(e => e.employee_number)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
+                entity.Property(e => e.employee_number).IsRequired().HasMaxLength(50);
                 entity.HasOne(e => e.user)
                       .WithOne(u => u.teacher)
                       .HasForeignKey<Teacher>(e => e.user_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // =========================
             // CLASS
-            // =========================
             modelBuilder.Entity<Class>(entity =>
             {
+                entity.ToTable("classes");
                 entity.HasKey(e => e.id);
-
-                entity.Property(e => e.name)
-                      .IsRequired()
-                      .HasMaxLength(150);
-
-                entity.Property(e => e.schedule_json)
-                      .HasColumnType("json");
-
-                entity.HasOne(e => e.academic_period)
+                entity.Property(e => e.name).IsRequired().HasMaxLength(150);
+                entity.Property(e => e.schedule_json).HasColumnType("json");
+                entity.HasOne(e => e.academic_periods)
                       .WithMany(a => a.classes)
                       .HasForeignKey(e => e.period_id)
                       .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e.program)
                       .WithMany(p => p.classes)
                       .HasForeignKey(e => e.program_id)
                       .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e.teacher)
                       .WithMany(t => t.classes)
                       .HasForeignKey(e => e.teacher_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // =========================
             // ENROLLMENT (N:N)
-            // =========================
             modelBuilder.Entity<Enrollment>(entity =>
             {
+                entity.ToTable("enrollments");
                 entity.HasKey(e => new { e.student_id, e.class_id });
-
-                entity.Property(e => e.enrolled_at)
-                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
+                entity.Property(e => e.enrolled_at).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.HasOne(e => e.student)
                       .WithMany(s => s.enrollments)
                       .HasForeignKey(e => e.student_id)
                       .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e._class)
                       .WithMany(c => c.enrollments)
                       .HasForeignKey(e => e.class_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // =========================
             // ASSIGNMENT
-            // =========================
             modelBuilder.Entity<Assignment>(entity =>
             {
+                entity.ToTable("assignments");
                 entity.HasKey(e => e.id);
-
-                entity.Property(e => e.name)
-                      .IsRequired()
-                      .HasMaxLength(200);
-
+                entity.Property(e => e.name).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.points).HasDefaultValue(0);
-
                 entity.HasOne(e => e._class)
                       .WithMany(c => c.assignments)
                       .HasForeignKey(e => e.class_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // =========================
             // SUBMISSION
-            // =========================
             modelBuilder.Entity<Submission>(entity =>
             {
+                entity.ToTable("submissions");
                 entity.HasKey(e => e.id);
-
-                entity.Property(e => e.submitted_at)
-                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
+                entity.Property(e => e.submitted_at).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(e => e.file_url).HasMaxLength(500);
-
                 entity.HasOne(e => e.assignment)
                       .WithMany(a => a.submissions)
                       .HasForeignKey(e => e.assignment_id)
                       .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e.student)
                       .WithMany(s => s.submissions)
                       .HasForeignKey(e => e.student_id)

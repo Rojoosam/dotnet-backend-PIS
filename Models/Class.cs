@@ -18,7 +18,7 @@ public partial class Class
     public string? schedule_json { get; set; }
 
     // Navigation properties
-    public virtual AcademicPeriod academic_period { get; set; } = null!;
+    public virtual AcademicPeriod academic_periods { get; set; } = null!;
     public virtual Program program { get; set; } = null!;
     public virtual Teacher teacher { get; set; } = null!;
     public virtual ICollection<Enrollment> enrollments { get; set; } = new List<Enrollment>();

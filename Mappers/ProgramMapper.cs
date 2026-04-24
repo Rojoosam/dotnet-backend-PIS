@@ -14,7 +14,7 @@ namespace SIADAL.Mappers
                 id = model.id,
                 name = model.name,
                 level_id = model.level_id,
-                level_name = model.educational_level?.name ?? string.Empty
+                level_name = model.educational_levels?.name ?? string.Empty
             };
         }
 
