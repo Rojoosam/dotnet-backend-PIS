@@ -4,13 +4,14 @@ namespace SIADAL.Models.DTOs.CreateClassDTO
 {
     public class CreateClassDTO
     {
-        public ulong course_id { get; set; }
-
-        public ulong teacher_id { get; set; }
-        public ulong academic_term_id { get; set; }
-
-        public List<ScheduleDTO> schedule { get; set; } = new();
-
-        public string room { get; set; } = null!;
+        [Required]
+        public int period_id { get; set; }
+        [Required]
+        public int program_id { get; set; }
+        [Required]
+        public int teacher_id { get; set; }
+        [Required]
+        public string name { get; set; } = null!;
+        public string? schedule_json { get; set; }
     }
 }

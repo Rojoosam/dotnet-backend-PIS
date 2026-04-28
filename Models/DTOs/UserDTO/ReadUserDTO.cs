@@ -4,12 +4,11 @@ namespace SIADAL.Models.DTOs.ReadUserDTO
 {
     public class ReadUserDTO
     {
-        [Required]
-        public ulong Id { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string First_name { get; set; } = null!;
-
-        public string Last_name { get; set; } = null!;
-
+        public int id { get; set; }
+        public string email { get; set; } = string.Empty;
+        public string first_name { get; set; } = null!;
+        public string last_name { get; set; } = null!;
+        public bool is_active { get; set; }
+        public DateTime created_at { get; set; }
     }
 }

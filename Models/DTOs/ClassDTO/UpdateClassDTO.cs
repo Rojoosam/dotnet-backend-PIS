@@ -1,17 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace SIADAL.Models.DTOs.UpdateClassDTO
 {
     public class UpdateClassDTO
     {
-
-        public ulong? course_id { get; set; }
-
-        public ulong? teacher_id { get; set; }
-        public ulong? academic_term_id { get; set; }
-
-        public List<ScheduleDTO>? schedule { get; set; } = new();
-
-        public string? room { get; set; } = null!;
+        public int? period_id { get; set; }
+        public int? program_id { get; set; }
+        public int? teacher_id { get; set; }
+        public string? name { get; set; }
+        public string? schedule_json { get; set; }
     }
 }

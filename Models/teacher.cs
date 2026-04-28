@@ -5,17 +5,13 @@ namespace SIADAL.Models;
 
 public partial class Teacher
 {
-    public ulong id { get; set; }
+    public int id { get; set; }
 
-    public ulong user_id { get; set; }
+    public int user_id { get; set; }
 
-    public int employee_number { get; set; }
+    public string employee_number { get; set; } = null!;
 
-    public DateTime? created_at { get; set; }
-
-    public DateTime? updated_at { get; set; }
-
-    public virtual ICollection<Class> _classes { get; set; } = new List<Class>();
-
+    // Navigation properties
     public virtual User user { get; set; } = null!;
+    public virtual ICollection<Class> classes { get; set; } = new List<Class>();
 }

@@ -10,10 +10,10 @@ namespace SIADAL.Interfaces
     {
         Task<List<ReadTeacherDTO>> GetAllAsync(TeacherQueryObject query);
         Task<PaginatedResultDTO<ReadTeacherDTO>> GetAllAsync(TeacherQueryObject query, int page = 1, int perPage = 10);
-        Task<ReadTeacherDTO?> GetByIdAsync(ulong id);
+        Task<ReadTeacherDTO?> GetByIdAsync(int id);
         Task<ReadTeacherDTO> CreateAsync(CreateTeacherDTO dto);
-        Task<ReadTeacherDTO?> UpdateAsync(ulong id, UpdateTeacherDTO dto);
-        Task<bool> DeleteAsync(ulong id);
-        Task<bool> TeacherExistsAsync(ulong id);
+        Task<ReadTeacherDTO?> UpdateAsync(int id, UpdateTeacherDTO dto);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> TeacherExistsAsync(int id);
     }
 }

@@ -39,14 +39,21 @@ builder.Services.AddScoped<JwtService>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
+
+// Register repositories
 builder.Services.AddScoped<SIADAL.Interfaces.IUser, SIADAL.Repository.UserRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.IStudent, SIADAL.Repository.StudentRepository>();
-builder.Services.AddScoped<SIADAL.Interfaces.ICourse, SIADAL.Repository.CourseRepository>();
-builder.Services.AddScoped<SIADAL.Interfaces.IAcademic_term, SIADAL.Repository.Academic_termRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.ITeacher, SIADAL.Repository.TeacherRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.IClass, SIADAL.Repository.ClassRepository>();
-builder.Services.AddScoped<SIADAL.Interfaces.IActivity, SIADAL.Repository.ActivityRepository>();
-builder.Services.AddScoped<SIADAL.Interfaces.IRole, SIADAL.Repository.RoleRepository>();
+
+builder.Services.AddScoped<SIADAL.Interfaces.IEducationalLevel, SIADAL.Repository.EducationalLevelRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.IProgram, SIADAL.Repository.ProgramRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.IAcademicPeriod, SIADAL.Repository.AcademicPeriodRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.IEnrollment, SIADAL.Repository.EnrollmentRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.IAssignment, SIADAL.Repository.AssignmentRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.ISubmission, SIADAL.Repository.SubmissionRepository>();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

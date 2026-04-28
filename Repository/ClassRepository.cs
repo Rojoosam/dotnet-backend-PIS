@@ -5,11 +5,9 @@ using SIADAL.Interfaces;
 using SIADAL.Mappers;
 using SIADAL.Models;
 using SIADAL.Models.DTOs;
-using SIADAL.Models.DTOs.ClassDTO;
 using SIADAL.Models.DTOs.CreateClassDTO;
 using SIADAL.Models.DTOs.ReadClassDTO;
 using SIADAL.Models.DTOs.UpdateClassDTO;
-using System.Text.Json;
 
 namespace SIADAL.Repository
 {
@@ -22,73 +20,48 @@ namespace SIADAL.Repository
             _context = context;
         }
 
-        protected virtual IQueryable<ReadClassRawDTO> BuildClassQuery(ClassQueryObject query)
+        protected virtual IQueryable<ReadClassDTO> BuildQuery(ClassQueryObject query)
         {
             var queryable = _context.Set<Class>()
                 .AsNoTracking()
-                .Select(m => new ReadClassRawDTO
+                .Select(m => new ReadClassDTO
                 {
                     id = m.id,
-                    course_id = m.course_id,
+                    name = m.name,
+                    schedule_json = m.schedule_json,
+                    period_id = m.period_id,
+                    period_name = m.academic_periods.name,
+                    program_id = m.program_id,
+                    program_name = m.program.name,
                     teacher_id = m.teacher_id,
-                    academic_term_id = m.academic_term_id,
-                    schedule = m.schedule,
-                    room = m.room,
-                    academic_term_name = m.academic_term.name,
-                    course_name = m.course.name,
                     teacher_name = m.teacher.user.first_name + " " + m.teacher.user.last_name
                 });
 
-            if (!string.IsNullOrEmpty(query.schedule))
-                queryable = queryable.Where(m => m.schedule.Contains(query.schedule));
+            if (!string.IsNullOrEmpty(query.name))
+                queryable = queryable.Where(m => m.name.Contains(query.name));
 
-            if (!string.IsNullOrEmpty(query.room))
-                queryable = queryable.Where(m => m.room.Contains(query.room));
+            if (query.period_id.HasValue)
+                queryable = queryable.Where(m => m.period_id == query.period_id.Value);
 
-            return queryable.OrderBy(m => m.schedule);
+            if (query.program_id.HasValue)
+                queryable = queryable.Where(m => m.program_id == query.program_id.Value);
+
+            if (query.teacher_id.HasValue)
+                queryable = queryable.Where(m => m.teacher_id == query.teacher_id.Value);
+
+            return queryable.OrderBy(m => m.name);
         }
 
         public async Task<List<ReadClassDTO>> GetAllAsync(ClassQueryObject query)
         {
-            var rawData = await BuildClassQuery(query).ToListAsync();
-
-            return rawData.Select(m => new ReadClassDTO
-            {
-                id = m.id,
-                course_id = m.course_id,
-                teacher_id = m.teacher_id,
-                academic_term_id = m.academic_term_id,
-                room = m.room,
-                academic_term_name = m.academic_term_name,
-                course_name = m.course_name,
-                teacher_name = m.teacher_name,
-                schedule = JsonSerializer.Deserialize<List<ScheduleDTO>>(m.schedule)!
-            }).ToList();
+            return await BuildQuery(query).ToListAsync();
         }
 
         public async Task<PaginatedResultDTO<ReadClassDTO>> GetAllAsync(ClassQueryObject query, int page = 1, int perPage = 10)
         {
-            var queryable = BuildClassQuery(query);
-
+            var queryable = BuildQuery(query);
             var totalItems = await queryable.CountAsync();
-
-            var rawItems = await queryable
-                .Skip((page - 1) * perPage)
-                .Take(perPage)
-                .ToListAsync();
-
-            var items = rawItems.Select(m => new ReadClassDTO
-            {
-                id = m.id,
-                course_id = m.course_id,
-                teacher_id = m.teacher_id,
-                academic_term_id = m.academic_term_id,
-                room = m.room,
-                academic_term_name = m.academic_term_name,
-                course_name = m.course_name,
-                teacher_name = m.teacher_name,
-                schedule = JsonSerializer.Deserialize<List<ScheduleDTO>>(m.schedule)!
-            }).ToList();
+            var items = await queryable.Skip((page - 1) * perPage).Take(perPage).ToListAsync();
 
             return new PaginatedResultDTO<ReadClassDTO>
             {
@@ -100,39 +73,23 @@ namespace SIADAL.Repository
             };
         }
 
-        public async Task<ReadClassDTO?> GetByIdAsync(ulong id)
+        public async Task<ReadClassDTO?> GetByIdAsync(int id)
         {
-            var raw = await _context.Set<Class>()
+            return await _context.Set<Class>()
                 .AsNoTracking()
                 .Where(m => m.id == id)
-                .Select(m => new ReadClassRawDTO
+                .Select(m => new ReadClassDTO
                 {
                     id = m.id,
-                    course_id = m.course_id,
+                    name = m.name,
+                    schedule_json = m.schedule_json,
+                    period_id = m.period_id,
+                    period_name = m.academic_periods.name,
+                    program_id = m.program_id,
+                    program_name = m.program.name,
                     teacher_id = m.teacher_id,
-                    academic_term_id = m.academic_term_id,
-                    schedule = m.schedule,
-                    room = m.room,
-                    academic_term_name = m.academic_term.name,
-                    course_name = m.course.name,
                     teacher_name = m.teacher.user.first_name + " " + m.teacher.user.last_name
-                })
-                .FirstOrDefaultAsync();
-
-            if (raw == null) return null;
-
-            return new ReadClassDTO
-            {
-                id = raw.id,
-                course_id = raw.course_id,
-                teacher_id = raw.teacher_id,
-                academic_term_id = raw.academic_term_id,
-                room = raw.room,
-                academic_term_name = raw.academic_term_name,
-                course_name = raw.course_name,
-                teacher_name = raw.teacher_name,
-                schedule = JsonSerializer.Deserialize<List<ScheduleDTO>>(raw.schedule)!
-            };
+                }).FirstOrDefaultAsync();
         }
 
         public async Task<ReadClassDTO> CreateAsync(CreateClassDTO dto)
@@ -140,21 +97,22 @@ namespace SIADAL.Repository
             var entity = ClassMapper.FromDtoToCreate(dto);
             await _context.Set<Class>().AddAsync(entity);
             await _context.SaveChangesAsync();
+
             var created = await _context.classes
-                .Include(c => c.academic_term)
-                .Include(c => c.course)
+                .Include(c => c.academic_periods)
+                .Include(c => c.program)
                 .Include(c => c.teacher)
                     .ThenInclude(t => t.user)
                 .FirstAsync(c => c.id == entity.id);
 
-            return ClassMapper.ToDto(entity);
+            return ClassMapper.ToDto(created);
         }
 
-        public async Task<ReadClassDTO?> UpdateAsync(ulong id, UpdateClassDTO dto)
+        public async Task<ReadClassDTO?> UpdateAsync(int id, UpdateClassDTO dto)
         {
             var entity = await _context.classes
-                .Include(c => c.academic_term)
-                .Include(c => c.course)
+                .Include(c => c.academic_periods)
+                .Include(c => c.program)
                 .Include(c => c.teacher)
                     .ThenInclude(t => t.user)
                 .FirstOrDefaultAsync(c => c.id == id);
@@ -165,7 +123,7 @@ namespace SIADAL.Repository
             return ClassMapper.ToDto(entity);
         }
 
-        public async Task<bool> DeleteAsync(ulong id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var entity = await _context.classes.FindAsync(id);
             if (entity == null) return false;
@@ -175,7 +133,7 @@ namespace SIADAL.Repository
             return true;
         }
 
-        public async Task<bool> ClassExistsAsync(ulong id)
+        public async Task<bool> ClassExistsAsync(int id)
         {
             return await _context.Set<Class>().AnyAsync(m => m.id == id);
         }

@@ -28,7 +28,6 @@ namespace SIADAL.Mappers
             model.user.last_name = dto.last_name ?? model.user.last_name;
             model.user.is_active = dto.is_active ?? model.user.is_active;
             model.user.email = dto.email ?? model.user.email;
-            model.updated_at = DateTime.UtcNow;
         }
 
         public static Teacher FromDtoToCreate(CreateTeacherDTO dto)
@@ -36,13 +35,12 @@ namespace SIADAL.Mappers
             return new Teacher
             {
                 employee_number = dto.employee_number,
-                created_at = DateTime.UtcNow,
                 user = new User
                 {
                     first_name = dto.first_name,
                     last_name = dto.last_name,
                     email = dto.email,
-                    password = BCrypt.Net.BCrypt.HashPassword(dto.password),
+                    password_hash = BCrypt.Net.BCrypt.HashPassword(dto.password),
                     is_active = dto.is_active ?? true,
                     created_at = DateTime.UtcNow
                 },

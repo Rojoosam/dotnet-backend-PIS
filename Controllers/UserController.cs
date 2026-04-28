@@ -26,7 +26,7 @@ namespace SIADAL.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            try 
+            try
             {
                 var items = await _repository.GetAllAsync(query);
                 return Ok(items);
@@ -40,11 +40,11 @@ namespace SIADAL.Controllers
         [Authorize]
         [HttpGet("{id:int}")]
         [HttpGet("details/{id:int}")]
-        public async Task<IActionResult> Get(ulong id)
+        public async Task<IActionResult> Get(int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            try 
+            try
             {
                 var item = await _repository.GetByIdAsync(id);
                 if (item == null) return NotFound();
@@ -66,7 +66,7 @@ namespace SIADAL.Controllers
             try
             {
                 var item = await _repository.CreateAsync(dto);
-                return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
+                return CreatedAtAction(nameof(Get), new { id = item.id }, item);
             }
             catch (Exception ex)
             {
@@ -77,11 +77,11 @@ namespace SIADAL.Controllers
         [Authorize]
         [HttpPut("{id:int}")]
         [HttpPut("update/{id:int}")]
-        public async Task<IActionResult> Put(ulong id, [FromBody] UpdateUserDTO dto)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateUserDTO dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            try 
+            try
             {
                 var updatedItem = await _repository.UpdateAsync(id, dto);
                 if (updatedItem == null) return NotFound();
@@ -96,11 +96,11 @@ namespace SIADAL.Controllers
         [Authorize]
         [HttpDelete("{id:int}")]
         [HttpDelete("delete/{id:int}")]
-        public async Task<IActionResult> Delete(ulong id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            try 
+            try
             {
                 var deleted = await _repository.DeleteAsync(id);
                 if (!deleted) return NotFound();
@@ -113,4 +113,3 @@ namespace SIADAL.Controllers
         }
     }
 }
-
