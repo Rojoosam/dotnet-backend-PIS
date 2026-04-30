@@ -27,8 +27,16 @@ namespace SIADAL.Controllers
 
             try
             {
-                var items = await _repository.GetAllAsync(query);
-                return Ok(items);
+                if (query.Paginated)
+                {
+                    var items = await _repository.GetAllAsync(query, query.Page, query.PerPage);
+                    return Ok(items);
+                }
+                else
+                {
+                    var items = await _repository.GetAllAsync(query);
+                    return Ok(items);
+                }
             }
             catch (Exception ex)
             {
