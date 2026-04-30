@@ -104,6 +104,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+// Allows API calls from frontend - browser policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:5173", // Local frontend dev server
+            "http://0.0.0.0" // Deployed Frontend on VPS
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
