@@ -8,7 +8,6 @@ using SIADAL.Models.DTOs.UpdateStudentDTO;
 namespace SIADAL.Controllers
 {
     [Route("api/student")]
-    [Authorize(Roles = "admin")]
     [ApiController]
     public class StudentController : ControllerBase
     {
