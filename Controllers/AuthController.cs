@@ -60,7 +60,7 @@ namespace SIADAL.Controllers
             {
                 token,
                 role,
-                userId = user.id,
+                userId = user.student?.id ?? user.teacher?.id ?? user.id,
                 expiration = DateTime.UtcNow.AddMinutes(60)
             });
         }
