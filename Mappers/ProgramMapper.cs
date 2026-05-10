@@ -14,7 +14,8 @@ namespace SIADAL.Mappers
                 id = model.id,
                 name = model.name,
                 level_id = model.level_id,
-                level_name = model.educational_levels?.name ?? string.Empty
+                level_name = model.educational_levels?.name ?? string.Empty,
+                temario = model.temario
             };
         }
 
@@ -22,6 +23,7 @@ namespace SIADAL.Mappers
         {
             model.name = dto.name ?? model.name;
             model.level_id = dto.level_id ?? model.level_id;
+            if (dto.temario != null) model.temario = dto.temario;
         }
 
         public static Models.Program FromDtoToCreate(CreateProgramDTO dto)

@@ -4,5 +4,6 @@ namespace SIADAL.Models.DTOs.UpdateProgramDTO
     {
         public int? level_id { get; set; }
         public string? name { get; set; }
+        public string? temario { get; set; }
     }
 }
