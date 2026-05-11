@@ -119,5 +119,34 @@ namespace SIADAL.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<string?> GetFileUrlAsync(int id)
+        {
+            return await _context.Set<Submission>()
+                .Where(s => s.id == id)
+                .Select(s => s.file_url)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<int?> GetOwnerUserIdAsync(int id)
+        {
+            return await _context.Set<Submission>()
+                .Where(s => s.id == id)
+                .Select(s => (int?)s.student.user_id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<ReadSubmissionDTO?> SetFileUrlAsync(int id, string fileName)
+        {
+            var entity = await _context.submissions
+                .Include(s => s.assignment)
+                .Include(s => s.student).ThenInclude(st => st.user)
+                .FirstOrDefaultAsync(s => s.id == id);
+            if (entity == null) return null;
+
+            entity.file_url = fileName;
+            await _context.SaveChangesAsync();
+            return SubmissionMapper.ToDto(entity);
+        }
     }
 }

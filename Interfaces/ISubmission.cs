@@ -14,5 +14,8 @@ namespace SIADAL.Interfaces
         Task<ReadSubmissionDTO> CreateAsync(CreateSubmissionDTO dto);
         Task<ReadSubmissionDTO?> UpdateAsync(int id, UpdateSubmissionDTO dto);
         Task<bool> DeleteAsync(int id);
+        Task<string?> GetFileUrlAsync(int id);
+        Task<ReadSubmissionDTO?> SetFileUrlAsync(int id, string fileName);
+        Task<int?> GetOwnerUserIdAsync(int id);
     }
 }
