@@ -1,0 +1,52 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.rsuser
+
+# JetBrains / Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+packages/
+!**/packages/build/
+
+# .NET secrets & sensitive config
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+secrets.json
+**/secrets/**
+
+# User secrets
+%APPDATA%\Microsoft\UserSecrets
+~/.microsoft/usersecrets
+
+# Uploads / file storage
+uploads/
+
+# Docker
+.dockerignore.override
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
