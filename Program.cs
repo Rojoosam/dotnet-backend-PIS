@@ -35,6 +35,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddSingleton<SIADAL.Interfaces.IFileService, SIADAL.Services.FileService>();
 
 builder.Services.AddAuthorization();
 
@@ -51,6 +52,7 @@ builder.Services.AddScoped<SIADAL.Interfaces.IAcademicPeriod, SIADAL.Repository.
 builder.Services.AddScoped<SIADAL.Interfaces.IEnrollment, SIADAL.Repository.EnrollmentRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.IAssignment, SIADAL.Repository.AssignmentRepository>();
 builder.Services.AddScoped<SIADAL.Interfaces.ISubmission, SIADAL.Repository.SubmissionRepository>();
+builder.Services.AddScoped<SIADAL.Interfaces.ITemario, SIADAL.Repository.TemarioRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

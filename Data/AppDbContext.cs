@@ -24,6 +24,7 @@ namespace SIADAL.Data
         public DbSet<Enrollment> enrollments { get; set; }
         public DbSet<Assignment> assignments { get; set; }
         public DbSet<Submission> submissions { get; set; }
+        public DbSet<Temario> temarios { get; set; }
 
         #endregion
 
@@ -183,6 +184,19 @@ namespace SIADAL.Data
                 entity.HasOne(e => e._class)
                       .WithMany(c => c.assignments)
                       .HasForeignKey(e => e.class_id)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // TEMARIO
+            modelBuilder.Entity<Temario>(entity =>
+            {
+                entity.ToTable("temarios");
+                entity.HasKey(e => e.id);
+                entity.Property(e => e.name).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.pdf_file_name).HasMaxLength(500);
+                entity.HasOne(e => e.program)
+                      .WithMany(p => p.temarios)
+                      .HasForeignKey(e => e.program_id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
