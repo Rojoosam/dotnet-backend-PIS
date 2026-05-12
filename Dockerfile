@@ -2,8 +2,9 @@
 
 # Esta fase se usa cuando se ejecuta desde VS en modo rápido (valor predeterminado para la configuración de depuración)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
+RUN mkdir -p /app/uploads && chown -R $APP_UID:$APP_UID /app/uploads
+USER $APP_UID
 EXPOSE 7000
 EXPOSE 7001
 
